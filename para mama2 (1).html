@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Cumpleaños Mami</title>
+    <style>
+         body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #dd7fe2 0%, #a832a8 100%);
+            font-family: 'Times New Roman', serif;
+            cursor: default;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
+
+        #fireworks-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #message-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2;
+        }
+
+        #message {
+            text-align: center;
+            color: #fff;
+            opacity: 0;
+            transition: opacity 2s;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        .neon-text {
+            font-size: 3.5vw;
+            text-shadow: 
+                0 0 10px #fff,
+                0 0 20px #fff,
+                0 0 30px #e60004,
+                0 0 40px #0008e6,
+                0 0 50px #8200e6,
+                0 0 60px #77e600,
+                0 0 70px #e600e6;
+            animation: flicker 1.5s infinite alternate;
+            margin: 20px 0;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 
+                    0 0 10px #fff,
+                    0 0 20px #fff,
+                    0 0 30px #e60023,
+                    0 0 40px #3200e6,
+                    0 0 50px #00e600,
+                    0 0 60px #e6d300,
+                    0 0 70px #e600e6;
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+
+        .balloon {
+            position: absolute;
+            border-radius: 50%;
+            animation: float-up 8s ease-in forwards;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            box-shadow: inset -5px -5px 10px rgba(0,0,0,0.2);
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            width: 3px;
+            height: 15px;
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        @keyframes float-up {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .flower {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff00ff" d="M50 20c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15zm0 25c-5.5 0-10-4.5-10-10s4.5-10 10-10 10 4.5 10 10-4.5 10-10 10z"/><path fill="%23ff0000" d="M50 30c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8c-1.7 0-3-1.3-3-3s1.3-3 3-3 3 1.3 3 3-1.3 3-3 3z"/><path fill="%23ff00ff" d="M50 10l-5 15h10zm0 60l5-15h-10zm40 20l-15-5v10zm-60 0l15-5v10zm20-40l-5-15v10zm20 0l5-15v10z"/></svg>');
+            background-size: contain;
+            pointer-events: none;
+            z-index: 4;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .butterfly {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23cc00ff" d="M50 50c-10 0-20-10-20-20s10-20 20-20 20 10 20 20-10 20-20 20zm0-35c-8.3 0-15 6.7-15 15s6.7 15 15 15 15-6.7 15-15-6.7-15-15-15z"/><path fill="%239900cc" d="M50 50c-5 0-10-5-10-10s5-10 10-10 10 5 10 10-5 10-10 10zm0-15c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z"/><path fill="%23cc00ff" d="M30 30l20 20-20 20zm40 0l-20 20 20 20z"/></svg>');
+            background-size: contain;
+            pointer-events: none;
+            z-index: 5;
+            animation: fly 15s linear infinite;
+            opacity: 0;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
+        }
+
+        @keyframes fly {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+                opacity: 1;
+            }
+            25% {
+                transform: translate(100px, 50px) rotate(90deg);
+            }
+            50% {
+                transform: translate(200px, 0) rotate(180deg);
+            }
+            75% {
+                transform: translate(100px, -50px) rotate(270deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(360deg);
+                opacity: 1;
+            }
+        }
+
+        .note {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(255,230,255,0.95) 100%);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            max-width: 250px;
+            text-align: center;
+            font-size: 18px;
+            color: #820066;
+            z-index: 6;
+            opacity: 0;
+            transform: scale(0) translateY(50px);
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .note.show {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .note::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid rgba(255,255,255,0.95);
+        }
+
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="%23ff3366" d="M50 85c-10-8-20-15-30-25-15-15-20-30-15-40 5-10 15-15 30-10 10 5 15 15 15 15s5-10 15-15c15-5 25 0 30 10 5 10 0 25-15 40-10 10-20 17-30 25z"/></svg>');
+            background-size: contain;
+            pointer-events: none;
+            z-index: 4;
+            animation: heart-fall linear forwards;
+            filter: drop-shadow(0 0 5px rgba(255,51,102,0.7));
+        }
+
+        @keyframes heart-fall {
+            0% {
+                transform: translateY(-10px) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .emoji {
+            font-size: 2em;
+            display: inline-block;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .neon-text {
+                font-size: 6vw;
+            }
+            
+            .note {
+                max-width: 180px;
+                font-size: 16px;
+            }
+        }
+
+        /* Nuevos estilos para el botón y el álbum */
+        .photo-album-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10;
+            background: linear-gradient(135deg, #ff66cc 0%, #cc66ff 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .photo-album-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, #ff66cc 0%, #cc66ff 100%);
+        }
+
+        .photo-album-btn:active {
+            transform: translateY(1px);
+        }
+
+        .photo-album-btn i {
+            font-size: 24px;
+        }
+
+        .album-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            z-index: 20;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .album-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .photo-album {
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90vh;
+            background: linear-gradient(135deg, #f8e1ff 0%, #ffffff 100%);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .album-header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .album-header h2 {
+            color: #820066;
+            font-size: 28px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .album-header::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff66cc, #cc66ff);
+            margin: 15px auto;
+            border-radius: 3px;
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .photo-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            aspect-ratio: 1/1;
+            background-color: #f0f0f0;
+        }
+
+        .photo-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .photo-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .photo-item:hover .photo-caption {
+            transform: translateY(0);
+        }
+
+        .close-album {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #820066;
+            font-size: 24px;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-album:hover {
+            background-color: rgba(130, 0, 102, 0.1);
+            transform: rotate(90deg);
+        }
+
+        /* Efecto de marco para las fotos */
+        .photo-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 15px solid transparent;
+            border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23cc66ff" d="M0,0 L100,0 L100,100 L0,100 Z M10,10 L90,10 L90,90 L10,90 Z"/></svg>') 15;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 15px;
+            }
+            
+            .photo-album {
+                width: 95%;
+                padding: 20px;
+            }
+            
+            .album-header h2 {
+                font-size: 24px;
+            }
+            
+            .photo-album-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+        }
+
+        /* Estilos para el pastel */
+    .cake-container {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 15;
+        display: none;
+    }
+    
+    .cake {
+        width: 200px;
+        height: 100px;
+        background: linear-gradient(to right, #e9c07f, #d69862ea);
+        border-radius: 50% 50% 0 0;
+        position: relative;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .frosting {
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        right: 10px;
+        height: 30px;
+        background: rgb(46, 24, 10);
+        border-radius: 50% 50% 0 0;
+    }
+    
+    .candles {
+        display: flex;
+        justify-content: space-around;
+        position: absolute;
+        top: -60px;
+        left: 0;
+        right: 0;
+    }
+    
+    .candle {
+        width: 15px;
+        height: 50px;
+        background: linear-gradient(to right, #ff5e62, #ff9966);
+        border-radius: 5px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .candle:hover {
+        transform: scale(1.1);
+    }
+    
+    .flame {
+        width: 10px;
+        height: 20px;
+        background: #ffef00;
+        border-radius: 50% 50% 20% 20%;
+        position: absolute;
+        top: -20px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 0 10px #ff9900, 0 0 20px #ff6600;
+        animation: flicker 1s infinite alternate;
+    }
+    
+    .plate {
+        width: 250px;
+        height: 30px;
+        background: #fff;
+        border-radius: 50%;
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    @keyframes flicker {
+        0%, 100% {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+        50% {
+            transform: translateX(-50%) scale(0.9) rotate(5deg);
+            opacity: 0.8;
+        }
+    }
+    
+    </style>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <p><h1>Feliz Cumpleaños Mami
+        La Amamos Mucho Mami</h1></p>
+
+
+  
+    
+            <div class="neon-text">
+                <span class="emoji">🎂</span>
+                <span class="emoji" style="animation-delay: 0.2s">🍮</span>
+                <span class="emoji" style="animation-delay: 0.4s">💜</span>
+            </div>
+    <div id="hearts-container"></div>
+
+    <!-- Botón del álbum de fotos -->
+    <button class="photo-album-btn" id="albumBtn">
+        <i class="fas fa-images"></i> Ver Recuerdos
+    </button>
+    
+    <!-- Overlay del álbum de fotos -->
+    <div class="album-overlay" id="albumOverlay">
+        <div class="photo-album">
+            <button class="close-album" id="closeAlbum">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="album-header">
+                <h2>Nuestros Mejores Momentos</h2>
+                <p>Recuerdos que atesoramos en el corazón</p>
+            </div>
+            <div class="photo-grid" id="photoGrid">
+                <!-- Las fotos se agregarán dinámicamente con JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- pastel -->
+<div class="cake-container" id="cakeContainer">
+    <div class="cake">
+        <div class="frosting"></div>
+        <div class="candles">
+            <div class="candle" onclick="blowCandle(this)">
+                <div class="flame"></div>
+            </div>
+            <div class="candle" onclick="blowCandle(this)">
+                <div class="flame"></div>
+            </div>
+            <div class="candle" onclick="blowCandle(this)">
+                <div class="flame"></div>
+            </div>
+        </div>
+    </div>
+    <div class="plate"></div>
+</div>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mostrar el mensaje con efecto de aparición
+            setTimeout(() => {
+                document.getElementById('message').style.opacity = '1';
+            }, 500);
+
+            // Crear fuegos artificiales mejorados
+            createEnhancedFireworks();
+
+            // Convertir texto en globos después de 5 segundos
+            setTimeout(createBalloons, 5000);
+
+            // Crear flores al pasar el mouse
+            document.addEventListener('mousemove', createFlower);
+            document.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                createFlower({
+                    clientX: e.touches[0].clientX,
+                    clientY: e.touches[0].clientY
+                });
+            }, {passive: false});
+
+            // Mostrar notas con mariposas después de que los globos se vayan
+            setTimeout(showNotes, 13000);
+            
+            // Reproducir música de fondo
+            playBackgroundMusic();
+        });
+
+        function createEnhancedFireworks() {
+            const container = document.getElementById('fireworks-container');
+            const colors = ['#ff00ff', '#00ffff', '#ffff00', '#ff6600', '#00ff66', '#ff0066'];
+            
+            for (let i = 0; i < 80; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * 100;
+                    const y = Math.random() * 100;
+                    const color = colors[Math.floor(Math.random() * colors.length)];
+                    
+                    // Crear partículas de fuegos artificiales
+                    for (let j = 0; j < 30; j++) {
+                        setTimeout(() => {
+                            const particle = document.createElement('div');
+                            particle.style.position = 'absolute';
+                            particle.style.width = '4px';
+                            particle.style.height = '4px';
+                            particle.style.borderRadius = '50%';
+                            particle.style.backgroundColor = color;
+                            particle.style.boxShadow = `0 0 8px 2px ${color}`;
+                            particle.style.left = `${x}%`;
+                            particle.style.top = `${y}%`;
+                            particle.style.transform = 'scale(0)';
+                            
+                            container.appendChild(particle);
+                            
+                            // Animación de explosión
+                            setTimeout(() => {
+                                const angle = Math.random() * Math.PI * 2;
+                                const distance = Math.random() * 50 + 30;
+                                const duration = Math.random() * 1 + 0.5;
+                                
+                                particle.style.transition = `all ${duration}s ease-out`;
+                                particle.style.transform = 'scale(1)';
+                                particle.style.left = `${x + Math.cos(angle) * distance}%`;
+                                particle.style.top = `${y + Math.sin(angle) * distance}%`;
+                                particle.style.opacity = '0';
+                                
+                                // Eliminar después de la animación
+                                setTimeout(() => {
+                                    container.removeChild(particle);
+                                }, duration * 1000);
+                            }, 50);
+                        }, j * 30);
+                    }
+                }, i * 200);
+            }
+        }
+
+        function createBalloons() {
+            const message = document.getElementById('message');
+            message.style.opacity = '0';
+            
+            const words = [
+                "Feliz", "Cumpleaños", "Mami", 
+                "Te", "Amamos", "Mucho", 
+                "Gracias", "Por", "ser", 
+                "la", "Mejor", "Mamá", "de", "todas"
+            ];
+            
+            let delay = 0;
+            
+            words.forEach(word => {
+                for (let i = 0; i < word.length; i++) {
+                    setTimeout(() => {
+                        const balloon = document.createElement('div');
+                        balloon.className = 'balloon';
+                        balloon.textContent = word[i];
+                        balloon.style.left = `${50 + (Math.random() - 0.5) * 20}%`;
+                        balloon.style.top = `${50 + (Math.random() - 0.5) * 20}%`;
+                        balloon.style.color = getRandomBalloonColor();
+                        balloon.style.fontSize = `${Math.random() * 20 + 20}px`;
+                        balloon.style.backgroundColor = getRandomBalloonColor();
+                        balloon.style.width = `${Math.random() * 30 + 40}px`;
+                        balloon.style.height = `${Math.random() * 30 + 50}px`;
+                        
+                        document.body.appendChild(balloon);
+                        
+                        // Eliminar después de la animación
+                        setTimeout(() => {
+                            document.body.removeChild(balloon);
+                        }, 8000);
+                    }, delay);
+                    
+                    delay += 100;
+                }
+            });
+        }
+
+        function getRandomBalloonColor() {
+            const colors = [
+                '#ff3366', '#ff6699', '#ff66cc', 
+                '#cc66ff', '#9966ff', '#6699ff',
+                '#66ccff', '#66ffff', '#66ffcc',
+                '#66ff99', '#99ff66', '#ccff66',
+                '#ffff66', '#ffcc66', '#ff9966'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function createFlower(e) {
+            const flower = document.createElement('div');
+            flower.className = 'flower';
+            flower.style.left = `${e.clientX - 15}px`;
+            flower.style.top = `${e.clientY - 15}px`;
+            flower.style.transform = `rotate(${Math.random() * 360}deg)`;
+            flower.style.animationDuration = `${Math.random() * 2 + 2}s`;
+            
+            document.body.appendChild(flower);
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                document.body.removeChild(flower);
+            }, 3000);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.style.left = `${Math.random() * 100}%`;
+            heart.style.top = `-30px`;
+            heart.style.width = `${Math.random() * 30 + 15}px`;
+            heart.style.height = heart.style.width;
+            heart.style.animationDuration = `${Math.random() * 3 + 5}s`;
+            
+            document.getElementById('hearts-container').appendChild(heart);
+            
+            // Eliminar después de la animación
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    document.getElementById('hearts-container').removeChild(heart);
+                }
+            }, 8000);
+        }
+
+        function startHeartRain() {
+            // Crear corazones cada 150ms para una lluvia más densa
+            const heartInterval = setInterval(createHeart, 150);
+            
+            // Detener la lluvia de corazones después de que todas las notas hayan terminado
+            setTimeout(() => {
+                clearInterval(heartInterval);
+            }, 23000);
+        }
+
+        function showNotes() {
+            // Iniciar la lluvia de corazones mejorada
+            startHeartRain();
+            
+            const messages = [
+                "Gracias Mami por Estar Siempre Ahí para mí",
+                "En Los Buenos Momentos",
+                "Y en Los No Tan Agradables",
+                "Por Apoyarme en Mis Fortalezas",
+                "Y en mis Debilidades",
+                "Gracias por ser Mi Mamá. Te Quiero Mucho Mamita Linda"
+            ];
+            
+            let delay = 0;
+            
+            messages.forEach((msg, index) => {
+                setTimeout(() => {
+                    // Crear mariposa
+                    const butterfly = document.createElement('div');
+                    butterfly.className = 'butterfly';
+                    butterfly.style.left = `${Math.random() * 70 + 15}%`;
+                    butterfly.style.top = `${Math.random() * 70 + 15}%`;
+                    butterfly.style.opacity = '1';
+                    butterfly.style.animationDelay = `${delay}ms`;
+                    butterfly.style.width = `${Math.random() * 30 + 40}px`;
+                    butterfly.style.height = butterfly.style.width;
+                    
+                    document.body.appendChild(butterfly);
+                    
+                    // Mostrar la nota después de un breve retraso
+                    setTimeout(() => {
+                        const note = document.createElement('div');
+                        note.className = 'note';
+                        note.textContent = msg;
+                        note.style.left = `${parseFloat(butterfly.style.left) + 5}%`;
+                        note.style.top = `${parseFloat(butterfly.style.top) - 20}%`;
+                        
+                        // Ajustar posición si está cerca del borde
+                        if (parseFloat(note.style.left) > 70) {
+                            note.style.left = `${parseFloat(note.style.left) - 15}%`;
+                        }
+                        
+                        document.body.appendChild(note);
+                        
+                        // Mostrar la nota con animación
+                        setTimeout(() => {
+                            note.classList.add('show');
+                        }, 100);
+                        
+                        // Ocultar y eliminar después de un tiempo
+                        setTimeout(() => {
+                            note.classList.remove('show');
+                            setTimeout(() => {
+                                if (note.parentNode) {
+                                    document.body.removeChild(note);
+                                }
+                                if (butterfly.parentNode) {
+                                    document.body.removeChild(butterfly);
+                                }
+                            }, 1000);
+                        }, 5000);
+                    }, 2000);
+                    
+                }, delay);
+                
+                delay += 3000;
+            });
+        }
+
+        function playBackgroundMusic() {
+            // Crear elemento de audio para música de fondo
+            const audio = document.createElement('audio');
+            audio.loop = true;
+            
+            // Intentar cargar diferentes formatos de audio
+            const canPlayMP3 = audio.canPlayType('audio/mpeg');
+            const canPlayOGG = audio.canPlayType('audio/ogg');
+            
+            if (canPlayMP3 === 'probably' || canPlayMP3 === 'maybe') {
+                audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+            } else if (canPlayOGG === 'probably' || canPlayOGG === 'maybe') {
+                audio.src = 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.ogg';
+            } else {
+                console.log('El navegador no soporta reproducción de audio');
+                return;
+            }
+            
+            audio.volume = 0.3;
+            
+            // Reproducir al hacer clic o toque (por políticas de autoplay)
+            document.body.addEventListener('click', function startMusic() {
+                audio.play().catch(e => console.log('Error al reproducir audio:', e));
+                document.body.removeEventListener('click', startMusic);
+            });
+            
+            document.body.addEventListener('touchstart', function startMusicTouch() {
+                audio.play().catch(e => console.log('Error al reproducir audio:', e));
+                document.body.removeEventListener('touchstart', startMusicTouch);
+            });
+        }
+
+
+         // Nuevo código para el álbum de fotos
+         document.addEventListener('DOMContentLoaded', function() {
+            
+            
+            // Configurar el álbum de fotos
+            setupPhotoAlbum();
+        });
+
+        function setupPhotoAlbum() {
+            const albumBtn = document.getElementById('albumBtn');
+            const albumOverlay = document.getElementById('albumOverlay');
+            const closeAlbum = document.getElementById('closeAlbum');
+            const photoGrid = document.getElementById('photoGrid');
+            
+            // Fotos 
+            const samplePhotos = [
+                { src: '10738.jpg', caption: 'Mi hermosa mamá' },
+                { src: '10755.jpg', caption: 'Tiempo en familia' },
+                { src: '10752.jpg', caption: 'Salida al Rio' },
+                { src: '10753.jpg', caption: 'Viejos Tiempos' },
+                { src: '10741.jpg', caption: '' },
+                { src: '10762.jpg', caption: 'Gracias Por Apoyarme Mami' },
+                { src: '10747.jpg', caption: '' },
+                { src: '10756.jpg', caption: '' },
+                { src: '10761.jpg', caption: '' },
+                { src: '10742.jpg', caption: '' },
+                { src: '10760.jpg', caption: 'Momento especial' },
+                { src: '10757.jpg', caption: '' }
+            ];
+            
+            // Cargar fotos en el álbum
+            samplePhotos.forEach(photo => {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                
+                const img = document.createElement('img');
+                img.src = photo.src;
+                img.alt = photo.caption;
+                img.loading = 'lazy';
+                
+                const caption = document.createElement('div');
+                caption.className = 'photo-caption';
+                caption.textContent = photo.caption;
+                
+                const frame = document.createElement('div');
+                frame.className = 'photo-frame';
+                
+                photoItem.appendChild(img);
+                photoItem.appendChild(caption);
+                photoItem.appendChild(frame);
+                photoGrid.appendChild(photoItem);
+            });
+            
+            // Mostrar el álbum
+            albumBtn.addEventListener('click', function() {
+                albumOverlay.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Ocultar el álbum
+            closeAlbum.addEventListener('click', function() {
+                albumOverlay.classList.remove('show');
+                document.body.style.overflow = '';
+            });
+            
+            // Cerrar al hacer clic fuera del álbum
+            albumOverlay.addEventListener('click', function(e) {
+                if (e.target === albumOverlay) {
+                    albumOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Función para soplar velas
+    function blowCandle(candle) {
+        const flame = candle.querySelector('.flame');
+        flame.style.animation = 'none';
+        flame.style.opacity = '0';
+        setTimeout(() => {
+            flame.remove();
+        }, 500);
+        
+        // Mostrar confeti cuando se sopla la última vela
+        const candles = document.querySelectorAll('.candle');
+        const blownCandles = document.querySelectorAll('.candle .flame:not([style*="opacity: 0"])');
+        if (blownCandles.length === 0) {
+            createConfetti();
+            setTimeout(() => {
+                document.querySelector('.cake-container').style.display = 'none';
+            }, 3000);
+        }
+    }
+    
+    // Función para mostrar el pastel después de las notas
+    setTimeout(() => {
+        document.querySelector('.cake-container').style.display = 'block';
+    }, 25000);
+
+    // Función mejorada de confeti
+function createConfetti() {
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+    const container = document.getElementById('fireworks-container');
+    
+    for (let i = 0; i < 150; i++) {
+        setTimeout(() => {
+            const confetti = document.createElement('div');
+            confetti.style.position = 'absolute';
+            confetti.style.width = '10px';
+            confetti.style.height = '10px';
+            confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = `${Math.random() * 100}%`;
+            confetti.style.top = '-10px';
+            confetti.style.borderRadius = '50%';
+            confetti.style.opacity = '0.8';
+            
+            container.appendChild(confetti);
+            
+            const animationDuration = Math.random() * 3 + 2;
+            
+            confetti.style.transition = `all ${animationDuration}s linear`;
+            confetti.style.transform = `translateY(${window.innerHeight + 10}px) rotate(${Math.random() * 360}deg)`;
+            confetti.style.opacity = '0';
+            
+            setTimeout(() => {
+                container.removeChild(confetti);
+            }, animationDuration * 1000);
+        }, i * 50);
+    }
+}
+
+    </script>
+</body>
+</html>
